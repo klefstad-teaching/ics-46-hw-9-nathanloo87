@@ -28,6 +28,23 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
 };
 vector<int> extract_shortest_path(const vector<int>& distances, const vector<int>& previous, int destination) {
     vector<int> path;
+    if (distances[destination] == INF) {
+        return path; // if no route exists
+    }
+    for (int current = destination; current != -1, current = previous[current]) {
+        path.push_back(current);
+    }
+    reverse(path.begin(), path.end());
+    return path;
 };
-void print_path(const vector<int>& v, int total);
+void print_path(const vector<int>& v, int total) {
+    if (v.empty()) {
+        cout << "No path found" << endl;
+        return;
+    }
+    for (size_t i = 0; i < v.size(); i++) {
+        cout << path[i];
+    }
+    cout << "\nTotal Cost: " << total << endl;
+};
 
