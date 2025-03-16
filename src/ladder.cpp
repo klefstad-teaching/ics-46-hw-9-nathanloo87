@@ -3,9 +3,48 @@
 
 void error(string word1, string word2, string msg) {
     std::cerr << word1 << word2 << msg << endl;
-};;
-bool edit_distance_within(const std::string& str1, const std::string& str2, int d);
-bool is_adjacent(const string& word1, const string& word2);
+};
+// checks whether the edit distance between the two strings is d characters
+bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
+    int len1 = str1.length(), len2 = str2.length();
+
+    if (abs(len1 - len2) > d) { // length differencce is greater than d, theres no possible way to change it. false
+        return false;
+    }
+    if (str1 == str2) { // strings are same
+        return (d >= 0);
+    }
+    if (len1 == len2) {
+        int diff = 0;
+        for (int i = 0; i < len1; i++) {
+            if (str1[i] != str2[i]) { // count how many characters are different
+                diff++;
+            }
+            if (diff > d) { // too many different characters to change, words are too far apart
+                return false;
+            }
+        }
+        return (diff == d);
+    }
+    int x = 0, y = 0;
+    bool is_diff = false;
+    while (x < len1 && y < len2) { // x and y are going to be the indexes
+        if (str1[x] != str2[y]) {
+            if (is_diff) {
+                return false;
+            }
+            is_diff = true;
+            y++;
+        } else {
+            x++;
+            y++;
+        }
+    }
+    return true;
+};
+bool is_adjacent(const string& word1, const string& word2) {
+    return edit_distance_within(word1, word2, 1);
+};
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
     
 };
