@@ -8,14 +8,13 @@ void error(string word1, string word2, string msg) {
 // checks whether the edit distance between the two strings is d characters
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
     int len1 = str1.length(), len2 = str2.length();
-
-    if (abs(len1 - len2) > d) { // length differencce is greater than d, theres no possible way to change it. false
+    if (abs(len1 - len2) > 1) { // length differencce is greater than d, theres no possible way to change it. false
         return false;
     }
     if (str1 == str2) { // strings are same
-        return (d >= 0);
+        return (d >= 1);
     }
-    if (len1 == len2) {
+    if (len1 == len2) { // same length
         int diff = 0;
         for (int i = 0; i < len1; i++) {
             if (str1[i] != str2[i]) { // count how many characters are different
