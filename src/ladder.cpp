@@ -46,7 +46,27 @@ bool is_adjacent(const string& word1, const string& word2) {
     return edit_distance_within(word1, word2, 1);
 };
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
-    
+    queue<vector<string>> lq;
+    lq.push(vector<string>{begin_word});
+    set<string> visited;
+    visited.insert(begin_word);
+    while (!lq.empty()) {
+        vector<string> ladder = lq.front();
+        lq.pop();
+        string last = ladder.back();
+        for (const string& word : word_list) {
+            if (is_adjacent(last, word) && !visited.contains(word)) {
+                visited.insert(word);
+                vector<string> nl = ladder;
+                nl.push_back(word);
+                if (word == last) {
+                    return nl;
+                }
+                lq.push(nl);
+            }
+        }
+    }
+    return vector<string>{};
 };
 void load_words(set<string> & word_list, const string& file_name) {
     ifstream filename(file_name);
