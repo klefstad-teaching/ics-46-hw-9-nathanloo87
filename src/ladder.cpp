@@ -29,7 +29,7 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
     }
     int x = 0, y = 0;
     bool is_diff = false;
-    while (x < len1 && y < len2) { // x and y are going to be the indexes
+    while (x < len1 && y < len2) { // x and y are going to be the indices
         if (str1[x] != str2[y]) {
             if (is_diff) {
                 return false;
