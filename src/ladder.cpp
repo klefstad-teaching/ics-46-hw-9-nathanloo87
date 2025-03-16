@@ -34,7 +34,12 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
                 return false;
             }
             is_diff = true;
-            y++;
+            if (len1 == len2) {
+                x++;
+                y++;
+            } else {
+                y++;
+            }
         } else {
             x++;
             y++;
