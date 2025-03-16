@@ -4,6 +4,7 @@
 vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& previous) {
     int vertices = G.numVertices;
     vector<int> distances(vertices, INF);
+    vector<int> previous(G.numVertices, -1);
     vector<bool> visited(vertices, false);
     distances[source] = 0;
     previous[source] = -1; // Undefined = -1
@@ -20,7 +21,7 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
             if (!visited[v] && distances[u] + weight < distances[v]) {
                 distances[v] = distances[u] + weight;
                 previous[v] = u;
-                minHeap.push(make_pair(v, distances[v]));
+                minHeap.push(make_pair(distances[v], v));
             }
         }
     }
@@ -35,7 +36,7 @@ vector<int> extract_shortest_path(const vector<int>& distances, const vector<int
     return path;
 };
 void print_path(const vector<int>& v, int total) {
-    if (total == INF) {
+    if (v.empty() || total == INF) {
         cout << "No path found" << endl;
         return;
     }
