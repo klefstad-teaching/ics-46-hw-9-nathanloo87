@@ -71,7 +71,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
 void load_words(set<string> & word_list, const string& file_name) {
     ifstream filename(file_name);
     if (!filename) {
-        cerr << "Could not open file" << endl;
+        error("","", "file not found");
     }
     string line;
     while (std::getline(filename, line)) {
@@ -80,8 +80,16 @@ void load_words(set<string> & word_list, const string& file_name) {
     filename.close();
 };
 void print_word_ladder(const vector<string>& ladder) {
-    for (const string &word : ladder) {
-        cout << word << " ";
+    if (ladder.empty()) {cout << "No word ladder found." << endl;}
+    else {
+        cout << "Word ladder found: ";
+        for (const string &word : ladder) {
+            cout << word;
+            if (word != ladder.end() - 1) {
+                cout << " ";
+            }
+        }
+        cout << " " << endl;
     }
 };
 void verify_word_ladder() {
