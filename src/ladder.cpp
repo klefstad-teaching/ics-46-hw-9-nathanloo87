@@ -14,42 +14,38 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
     if (str1 == str2) { // strings are same
         return (d >= 1);
     }
-    // if (len1 == len2) { // same length
-    //     int diff = 0;
-    //     for (int i = 0; i < len1; i++) {
-    //         if (str1[i] != str2[i]) { // count how many characters are different
-    //             diff++;
-    //         }
-    //         if (diff > d) { // too many different characters to change, words are too far apart
-    //             return false;
-    //         }
-    //     }
-    //     return (diff == d);
-    // }
-    int x = 0, y = 0, is_diff = 0;
-    while (x < len1 && y < len2) { // x and y are going to be the indices
-        if (str1[x] != str2[y]) {
-            if (is_diff == 1) {
+    if (len1 == len2) { // same length
+        int diff = 0;
+        for (int i = 0; i < len1; i++) {
+            if (str1[i] != str2[i]) { // count how many characters are different
+                diff++;
+            }
+            if (diff > d) { // too many different characters to change, words are too far apart
                 return false;
             }
-            if (len1 > len2) {
+        }
+        return (diff == d);
+    }
+    int x = 0, y = 0;
+    bool is_diff = false;
+    while (x < len1 && y < len2) { // x and y are going to be the indices
+        if (str1[x] != str2[y]) {
+            if (is_diff) {
+                return false;
+            }
+            is_diff = true;
+            if (len1 == len2) {
                 x++;
-            } else if (len1 < len2) {
                 y++;
             } else {
-                x++;
                 y++;
             }
-            is_diff++;
         } else {
             x++;
             y++;
         }
     }
-    if (len1 > x || len2 > y) {
-        is_diff++;
-    }
-    return (is_diff >= 1);
+    return true;
 };
 bool is_adjacent(const string& word1, const string& word2) {
     return edit_distance_within(word1, word2, 1);
@@ -58,7 +54,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
     if (begin_word == end_word) {return {};}
     if (word_list.find(end_word) == word_list.end()) {return {};}
     queue<vector<string>> lq;
-    lq.push({begin_word});
+    lq.push(vector<string>{begin_word});
     set<string> visited;
     visited.insert(begin_word);
     while (!lq.empty()) {
@@ -77,7 +73,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
             }
         }
     }
-    return {};
+    return vector<string>{};
 };
 void load_words(set<string> & word_list, const string& file_name) {
     ifstream filename(file_name);
