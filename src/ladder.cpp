@@ -58,7 +58,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
     if (begin_word == end_word) {return {};}
     if (word_list.find(end_word) == word_list.end()) {return {};}
     queue<vector<string>> lq;
-    lq.push(vector<string>{begin_word});
+    lq.push({begin_word});
     set<string> visited;
     visited.insert(begin_word);
     while (!lq.empty()) {
@@ -70,7 +70,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
                 visited.insert(word);
                 vector<string> nl = ladder;
                 nl.push_back(word);
-                if (word == last) {
+                if (word == end_word) {
                     return nl;
                 }
                 lq.push(nl);
